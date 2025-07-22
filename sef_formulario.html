@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guest Registration Form / Formulário de Registro de Hóspedes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f6f9;
+      color: #1f1f1f;
+      padding: 40px;
+    }
+
+    .container {
+      background-color: white;
+      width: 800px;
+      margin: auto;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .print-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @media print {
+      button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Formulario de Registro de Huéspedes<br>Guest Registration Form<br>Formulário de Registro de Hóspedes</h1>
+
+    <div class="form-group">
+      <label>Apartamento / Apartment / Apartamento</label>
+      <select id="apartamento">
+        <option>Apartamento Marina Plaza</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Nombre completo / Full Name / Nome completo</label>
+      <input type="text" id="nombre" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de nacimiento / Date of Birth / Data de nascimento</label>
+      <input type="date" id="nacimiento">
+    </div>
+
+    <div class="form-group">
+      <label>Nacionalidad / Nationality / Nacionalidade</label>
+      <input list="nacionalidades" id="nacionalidad" placeholder="">
+      <datalist id="nacionalidades"></datalist>
+    </div>
+
+    <div class="form-group">
+      <label>Morada de residencia / Address / Morada de residência</label>
+      <input type="text" id="morada" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label>Country of Residency / País de Residencia / País de residência</label>
+      <input list="nacionalidades" id="pais_residencia" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label>Documento de identificación / ID Document / Documento de identificação</label>
+      <select id="tipo_doc">
+        <option value="">Seleccionar / Select / Selecionar</option>
+        <option value="Pasaporte">Pasaporte / Passport / Passaporte</option>
+        <option value="DNI">DNI / National ID / Cartão Cidadão</option>
+        <option value="Otro">Otro / Other / Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Número del documento de identificación / Identification Document Number / Número do documento de identificação</label>
+      <input type="text" id="numero_doc" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de Check-in / Check-in Date / Data de entrada</label>
+      <input type="date" id="checkin">
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de Check-out / Check-out Date / Data de saída</label>
+      <input type="date" id="checkout">
+    </div>
+
+    <div class="form-group">
+      <label>Valor a recibir (€) / Amount (€) / Valor a receber (€)</label>
+      <input type="number" id="valor" step="0.01" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de recepción del dinero / Payment Date / Data de recebimento</label>
+      <input type="date" id="fecha_recibo">
+    </div>
+
+    <div class="print-button">
+      <button onclick="printForm()">Imprimir / Print / Imprimir</button>
+    </div>
+  </div>
+
+  <script>
+    const countries = [...new Set([
+      "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia",
+      "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
+      "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria",
+      "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic",
+      "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus",
+      "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador",
+      "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia",
+      "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+      "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+      "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+      "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar",
+      "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico",
+      "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia",
+      "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
+      "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea",
+      "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda",
+      "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+      "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+      "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain",
+      "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania",
+      "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
+      "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay",
+      "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+    ])];
+
+    const datalist = document.getElementById("nacionalidades");
+    countries.sort().forEach(country => {
+      const option = document.createElement("option");
+      option.value = country;
+      datalist.appendChild(option);
+    });
+
+    function isFormEmpty() {
+      const fields = [
+        'nombre', 'nacimiento', 'nacionalidad', 'morada', 'pais_residencia', 'tipo_doc',
+        'numero_doc', 'checkin', 'checkout', 'valor', 'fecha_recibo'
+      ];
+      for (let id of fields) {
+        const field = document.getElementById(id);
+        if (field && field.value.trim() !== '') return false;
+      }
+      return true;
+    }
+
+    function printForm() {
+      const dateFields = ['nacimiento', 'checkin', 'checkout', 'fecha_recibo'];
+      let replaced = [];
+
+      if (isFormEmpty()) {
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => input.value = '');
+
+        dateFields.forEach(id => {
+          const el = document.getElementById(id);
+          const parent = el.parentElement;
+          const temp = document.createElement('input');
+          temp.type = 'text';
+          temp.placeholder = '';
+          temp.style.border = el.style.border;
+          temp.style.width = el.style.width;
+          temp.style.height = el.style.height;
+          temp.className = el.className;
+          temp.id = id;
+          parent.replaceChild(temp, el);
+          replaced.push({ parent, original: el, temp });
+        });
+      }
+
+      window.onafterprint = () => {
+        replaced.forEach(({ parent, original, temp }) => {
+          parent.replaceChild(original, temp);
+        });
+      };
+
+      window.print();
+    }
+  </script>
+</body>
+</html>
